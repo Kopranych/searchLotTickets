@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Ticket {
     private final int number;
+    private FieldTicket topField = new FieldTicket();
+    private FieldTicket botField = new FieldTicket();
     private Set<Column> setColumn = new HashSet<Column>();
 
     public Ticket(int number) {

@@ -5,22 +5,21 @@ import java.util.Set;
 
 public class CoincidenceStatistic {
     private int numberCoincidence;
-    private Set<Integer> setMatchedNumber = new HashSet<Integer>();
+    private Set<Integer> setIdenticalNumber = new HashSet<Integer>();
 
     public int getNumberCoincidence() {
-        return numberCoincidence = setMatchedNumber.size();
+        return numberCoincidence = setIdenticalNumber.size();
     }
 
-    public Set<Integer> getSetMatchedNumber() {
-        return setMatchedNumber;
+    public Set<Integer> getSetIdenticalNumber() {
+        return setIdenticalNumber;
     }
 
     @Override
     public String toString() {
-        numberCoincidence = setMatchedNumber.size();
         return "CoincidenceStatistic{" +
                 "numberCoincidence=" + numberCoincidence +
-                ", setMatchedNumber=" + setMatchedNumber +
+                ", setIdenticalNumber=" + setIdenticalNumber +
                 '}';
     }
 }
