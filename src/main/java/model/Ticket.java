@@ -10,6 +10,10 @@ public class Ticket {
 
     public Ticket(int number) {
         this.number = number;
+        for(int i = 1; i <=9; i++){
+            Column col = new Column(i);
+            setColumn.add(col);
+        }
     }
 
     public Ticket(int number, Set<Column> setColumn) {
@@ -31,6 +35,14 @@ public class Ticket {
     @Override
     public int hashCode() {
         return number;
+    }
+
+    public FieldTicket getTopField() {
+        return topField;
+    }
+
+    public FieldTicket getBotField() {
+        return botField;
     }
 
     public int getNumber() {
