@@ -4,11 +4,12 @@ import model.CoincidenceStatistic;
 import model.Ticket;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import selenideAction.Login;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
-public class TestSearch {
+public class TestProject {
     @Test
     public void test() {
         Configuration.browser = "chrome";
@@ -50,6 +51,11 @@ public class TestSearch {
             i++;
         }
         System.out.println(CompareTicket.getListTicket().size());
+    }
+
+    @Test
+    public void testSetUp(){
+        Login.setUp();
     }
 }
 
