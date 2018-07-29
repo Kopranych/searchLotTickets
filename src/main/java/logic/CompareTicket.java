@@ -3,26 +3,89 @@ package logic;
 import model.CoincidenceStatistic;
 import model.Column;
 import model.Ticket;
+import model.TicketRow;
 
 import java.util.*;
 
 public class CompareTicket {
-    private static List<Ticket> listTicket = new LinkedList<Ticket>();
+    public static List<Ticket> listTicket = new LinkedList<Ticket>();
     private static int countTicket = 0;
 
-    public static boolean addUniqueTickets(Ticket ticket, int numberOfMatches){
-        if(countTicket == 0){
+    public static boolean addUniqueTickets(Ticket ticket, int numberOfMatches) {
+        if (countTicket == 0) {
             System.out.println("* Определите необходимое количество билетов в наборе!!!");
             return false;
         }
-        for (Ticket tick :listTicket) {
+        for (Ticket tick : listTicket) {
             CoincidenceStatistic statistic = comparePairTicket(ticket, tick);
-            if(statistic.getNumberCoincidence() > numberOfMatches){
-                return  false;
+            if (statistic.getNumberCoincidence() > numberOfMatches) {
+                return false;
             }
         }
         listTicket.add(ticket);
         return true;
+    }
+
+    public static void movingFromFieldToColumns() {
+        for (Ticket ticket : listTicket) {
+            Set<TicketRow> setRow = ticket.getTopField().getSetTicketRow();
+            fromRowsToColumn(setRow, ticket);
+            setRow = ticket.getBotField().getSetTicketRow();
+            fromRowsToColumn(setRow, ticket);
+        }
+    }
+
+    public static void fromRowsToColumn(Set<TicketRow> setRow, Ticket ticket){
+        for (TicketRow  ticketRow: setRow){
+            for(Integer i: ticketRow.getSetNumber()){
+                if(i<11){
+                    for (Column col : ticket.getSetColumn()) {
+                        if(col.getNumberColumn() == 1)
+                            col.getSetNumber().add(i);
+                    }
+                }else if(i>=11 && i<21){
+                    for (Column col : ticket.getSetColumn()) {
+                        if(col.getNumberColumn() == 2)
+                            col.getSetNumber().add(i);
+                    }
+                }else if(i>=21 && i<31){
+                    for (Column col : ticket.getSetColumn()) {
+                        if(col.getNumberColumn() == 3)
+                            col.getSetNumber().add(i);
+                    }
+                }else if(i>=31 && i<41){
+                    for (Column col : ticket.getSetColumn()) {
+                        if(col.getNumberColumn() == 4)
+                            col.getSetNumber().add(i);
+                    }
+                }else if(i>=41 && i<51){
+                    for (Column col : ticket.getSetColumn()) {
+                        if(col.getNumberColumn() == 5)
+                            col.getSetNumber().add(i);
+                    }
+                }else if(i>=51 && i<61){
+                    for (Column col : ticket.getSetColumn()) {
+                        if(col.getNumberColumn() == 6)
+                            col.getSetNumber().add(i);
+                    }
+                }else if(i>=61 && i<71){
+                    for (Column col : ticket.getSetColumn()) {
+                        if(col.getNumberColumn() == 7)
+                            col.getSetNumber().add(i);
+                    }
+                }else if(i>=71 && i<81){
+                    for (Column col : ticket.getSetColumn()) {
+                        if(col.getNumberColumn() == 8)
+                            col.getSetNumber().add(i);
+                    }
+                }else if(i>=81 && i<91){
+                    for (Column col : ticket.getSetColumn()) {
+                        if(col.getNumberColumn() == 9)
+                            col.getSetNumber().add(i);
+                    }
+                }
+            }
+        }
     }
 
     public static void fillTicket(Ticket ticket) {
@@ -47,8 +110,8 @@ public class CompareTicket {
             Set<Integer> setNumber1 = col1.getSetNumber();
             Set<Integer> setNumber2 = col2.getSetNumber();
             for (Integer integ1 : setNumber1) {
-                for (Integer integ2 : setNumber2){
-                    if(integ1.equals(integ2)){
+                for (Integer integ2 : setNumber2) {
+                    if (integ1.equals(integ2)) {
                         cs.getSetIdenticalNumber().add(integ1.intValue());
                     }
                 }
