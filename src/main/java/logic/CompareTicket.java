@@ -4,10 +4,26 @@ import model.CoincidenceStatistic;
 import model.Column;
 import model.Ticket;
 
-import javax.print.attribute.IntegerSyntax;
 import java.util.*;
 
 public class CompareTicket {
+    private static List<Ticket> listTicket = new LinkedList<Ticket>();
+    private static int countTicket = 0;
+
+    public static boolean addUniqueTickets(Ticket ticket, int numberOfMatches){
+        if(countTicket == 0){
+            System.out.println("* Определите необходимое количество билетов в наборе!!!");
+            return false;
+        }
+        for (Ticket tick :listTicket) {
+            CoincidenceStatistic statistic = comparePairTicket(ticket, tick);
+            if(statistic.getNumberCoincidence() > numberOfMatches){
+                return  false;
+            }
+        }
+        listTicket.add(ticket);
+        return true;
+    }
 
     public static void fillTicket(Ticket ticket) {
         Random rnd = new Random();
@@ -33,7 +49,7 @@ public class CompareTicket {
             for (Integer integ1 : setNumber1) {
                 for (Integer integ2 : setNumber2){
                     if(integ1.equals(integ2)){
-                        cs.getSetMatchedNumber().add(integ1.intValue());
+                        cs.getSetIdenticalNumber().add(integ1.intValue());
                     }
                 }
 
@@ -41,5 +57,13 @@ public class CompareTicket {
 
         }
         return cs;
+    }
+
+    public static List<Ticket> getListTicket() {
+        return listTicket;
+    }
+
+    public static void setCountTicket(int countTicket) {
+        CompareTicket.countTicket = countTicket;
     }
 }
