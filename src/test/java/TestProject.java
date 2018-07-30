@@ -2,12 +2,19 @@ import com.codeborne.selenide.Configuration;
 import logic.CompareTicket;
 import model.CoincidenceStatistic;
 import model.Ticket;
+import model.TicketRow;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import selenideAction.Login;
+import selenideAction.WorkerInPage;
+
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static logic.CompareTicket.listTicket;
 
 public class TestProject {
     @Test
@@ -41,11 +48,11 @@ public class TestProject {
     public void testaddUniqueTickets() {
         CompareTicket.setCountTicket(10);
         int i = 1;
-        while(CompareTicket.getListTicket().size() < 10) {
+        while (CompareTicket.getListTicket().size() < 10) {
             Ticket ticket = new Ticket(i);
             CompareTicket.fillTicket(ticket);
-            boolean isAdded = CompareTicket.addUniqueTickets(ticket,i);
-            if(isAdded){
+            boolean isAdded = CompareTicket.addUniqueTickets(ticket, i);
+            if (isAdded) {
                 System.out.println("Билет номер " + i + " добавлен");
             }
             i++;
@@ -54,8 +61,37 @@ public class TestProject {
     }
 
     @Test
-    public void testSetUp(){
+    public void testSetUp() {
         Login.setUp();
+    }
+
+    @Test
+    public void testMoveFromFieldToColumn() {
+        for (int i = 0; i < 10; i++) {
+            Ticket ticket = new Ticket(i + 1);
+            listTicket.add(ticket);
+        }
+        Set<Integer> setNum1 = new HashSet<Integer>();
+        Set<Integer> setNum2 = new HashSet<Integer>();
+        Set<Integer> setNum3 = new HashSet<Integer>();
+        Set<Integer> setNum4 = new HashSet<Integer>();
+        Set<Integer> setNum5 = new HashSet<Integer>();
+        Set<Integer> setNum6 = new HashSet<Integer>();
+
+        for (int i = 0; i < 5; i++) {
+//            setNum1.add();
+
+        }
+        Random rnd = new Random();
+        while (setNum1.size() < 5) {
+//            setNum1.add((rnd.nextInt(10) + 1) + ((i - 1) * 10));
+        }
+    }
+
+    @Test
+    public void testworkSpase(){
+        Login.setUp();
+        WorkerInPage.scanTicketOnPage();
     }
 }
 
