@@ -20,7 +20,7 @@ import static com.codeborne.selenide.Selenide.open;
 public class Login {
     public static WebDriver driver;
     public static void setUp(){
-        Tools.customLogger("* Конфигурирую драйвер для работы с браузером");
+        Tools.customLogger("> > Начал работу метод конфигурирации драйвера для работы с браузером");
         Configuration.holdBrowserOpen = true;
         Configuration.reportsFolder = new String("src\\main\\java\\data\\screenshots");
         Configuration.browser = "chrome";

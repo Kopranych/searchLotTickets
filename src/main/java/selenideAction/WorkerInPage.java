@@ -16,6 +16,7 @@ public class WorkerInPage {
 
 
     public static void scanTicketOnPage() {
+        Tools.customLogger("> > Начал работу мтод сканирования билетов на странице");
         SelenideElement element = $(byClassName("stage"));
         Tools.customLogger("* Ищу все билеты на странице");
         ElementsCollection collectionTicket = element.$$(byClassName("bingo_ticket"));

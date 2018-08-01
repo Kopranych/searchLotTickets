@@ -71,8 +71,7 @@ public class Ticket {
             System.out.println("Column " + col.getNumberColumn());
             System.out.println(col.getSetNumber());
         }
-
-
+        System.out.println("");
     }
 
     @Override

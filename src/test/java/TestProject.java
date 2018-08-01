@@ -92,6 +92,10 @@ public class TestProject {
     public void testworkSpase(){
         Login.setUp();
         WorkerInPage.scanTicketOnPage();
+        CompareTicket.movingFromFieldToColumns();
+        for (Ticket ticket : listTicket) {
+            ticket.displayTicket();
+        }
     }
 }
 
