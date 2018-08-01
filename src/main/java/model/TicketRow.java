@@ -4,7 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TicketRow {
-    Set<Integer> setNumber;
+    private int numberRow;
+    private Set<Integer> setNumber;
 
     public TicketRow(Set<Integer> setNumber) {
         this.setNumber = setNumber;

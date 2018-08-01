@@ -57,11 +57,31 @@ public class Ticket {
         this.setColumn = setColumn;
     }
 
+    public  void displayTicket(){
+        System.out.println("Ticket number=" + number );
+        System.out.println("Top field ");
+        for(TicketRow row: topField.getSetTicketRow()){
+            System.out.println(row.getSetNumber());
+        }
+        System.out.println("Bot field ");
+        for(TicketRow row: botField.getSetTicketRow()){
+            System.out.println(row.getSetNumber());
+        }
+        for(Column col: setColumn){
+            System.out.println("Column " + col.getNumberColumn());
+            System.out.println(col.getSetNumber());
+        }
+
+
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
                 "number=" + number +
-                ", setColumn=" + setColumn +
+                ", topField=" + topField +"\\n"+
+                ", botField=" + botField +"\\n"+
+                ", setColumn=" + setColumn +"\\n"+
                 '}';
     }
 }
