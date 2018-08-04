@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CoincidenceStatistic {
-    private int numberCoincidence;
-    private Set<Integer> setIdenticalNumber = new HashSet<Integer>();
+    private int numberCoincidence;//количество совпадений между двумя билетами
+    private Set<Integer> setIdenticalNumber = new HashSet<Integer>();//набор одинаковых чисел
 
     public int getNumberCoincidence() {
         return numberCoincidence = setIdenticalNumber.size();

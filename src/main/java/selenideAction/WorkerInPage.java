@@ -1,11 +1,13 @@
 package selenideAction;
 
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import model.Ticket;
 import model.TicketRow;
 import ru.bpirate.vsrftools.Tools;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,11 +47,29 @@ public class WorkerInPage {
     }
 
     public static void selectTicket(Ticket ticket) {
+        Tools.customLogger("> > Начал работу метод выбора найденного билета");
+        SelenideElement element = $(byClassName("stage"));
+        Tools.customLogger("* Ищу все билеты на странице");
+        ElementsCollection collectionTicket = element.$$(byClassName("bingo_ticket"));
+        for (SelenideElement ticketElement : collectionTicket) {
+            String ticketNumber = ticketElement.$(byClassName("ticket_id")).getText();
+            ticketNumber = ticketNumber.substring(4);
+            String tmpTicketNumber = String.valueOf(ticket.getNumber());
+            if(ticketNumber.equals(tmpTicketNumber)){
+                ticketElement.click();
+                Tools.customLogger("* Делаю скриншот билета номер " + ticket.getNumber());
+                String screenshotFileName = tmpTicketNumber + " " + new Date();
+                screenshotFileName = screenshotFileName.replaceAll(" ", "-");
+                screenshotFileName = screenshotFileName.replaceAll(":", "-");
+                Selenide.screenshot(screenshotFileName);
+            }
+        }
     }
 
     public static void addTicketToBacket() {
     }
 
-    public static void updateTicket() {
+    public static void updateListTicketOnPage() {
+
     }
 }
