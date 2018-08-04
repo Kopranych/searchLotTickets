@@ -49,7 +49,6 @@ public class WorkerInPage {
     public static void selectTicket(Ticket ticket) {
         Tools.customLogger("> > Начал работу метод выбора найденного билета");
         SelenideElement element = $(byClassName("stage"));
-        Tools.customLogger("* Ищу все билеты на странице");
         ElementsCollection collectionTicket = element.$$(byClassName("bingo_ticket"));
         for (SelenideElement ticketElement : collectionTicket) {
             String ticketNumber = ticketElement.$(byClassName("ticket_id")).getText();
@@ -62,14 +61,19 @@ public class WorkerInPage {
                 screenshotFileName = screenshotFileName.replaceAll(" ", "-");
                 screenshotFileName = screenshotFileName.replaceAll(":", "-");
                 Selenide.screenshot(screenshotFileName);
+                Selenide.sleep(1000);
+                addTicketToBacket();
+                ticketElement.click();
             }
         }
     }
 
     public static void addTicketToBacket() {
+        Tools.customLogger("> > Начал работу метод добавления билета в корзину");
     }
 
     public static void updateListTicketOnPage() {
-
+        Tools.customLogger("> > Начал работу метод обновления билетов на странице");
+       $(byClassName("refresh")).click();
     }
 }
