@@ -1,20 +1,22 @@
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import logic.CompareTicket;
+import logic.ConvertingTicket;
 import model.Ticket;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import ru.bpirate.vsrftools.Tools;
 import selenideAction.Login;
 import selenideAction.WorkerInPage;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static logic.CompareTicket.listTempTicket;
-import static logic.CompareTicket.listUniqueTicket;
+import static logic.CompareTicket.*;
 
 public class TestProject {
     @Test
@@ -51,7 +53,7 @@ public class TestProject {
         while (CompareTicket.getListUniqueTicket().size() < 10) {
             Ticket ticket = new Ticket(i);
             CompareTicket.fillTicket(ticket);
-            boolean isAdded = CompareTicket.addUniqueTickets(ticket, i);
+            boolean isAdded = CompareTicket.addUniqueTickets(ticket);
             if (isAdded) {
                 System.out.println("Билет номер " + i + " добавлен");
             }
@@ -93,19 +95,30 @@ public class TestProject {
         Login.setUp();
 //        Login.login("ilja_kapr@mail.ru", "Kopranych25");
         CompareTicket.setCountTicket(10);
+        String pathFolder = ConvertingTicket.createFolder();
         while(listUniqueTicket.size()<10) {
             WorkerInPage.scanTicketOnPage();
             CompareTicket.movingFromFieldToColumns(listTempTicket);
 
             for (Ticket ticket : listTempTicket) {
-                boolean isAddedTicket = CompareTicket.addUniqueTickets(ticket, 5);
+                boolean isAddedTicket = CompareTicket.addUniqueTickets(ticket);
                 if (isAddedTicket) {
                     WorkerInPage.selectTicket(ticket);
+                    try {
+                        ConvertingTicket.saveTicket(ticket, pathFolder);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(listUniqueTicket.size()>9){
+                    break;
                 }
             }
+            searchRepeatedTicket();
             listTempTicket.clear();
             WorkerInPage.updateListTicketOnPage();
             Selenide.sleep(1000);//задержка иначе добавляет во временный набор первый билет с прошлой страницы
+            Tools.customLogger("* Значение numberOfMatches = " + numberOfMatches);
         }
         for (Ticket ticket : listUniqueTicket) {
             ticket.displayTicket();
