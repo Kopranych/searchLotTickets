@@ -68,7 +68,7 @@ public class WorkerInPage {
         }
     }
 
-    public static void addTicketToBacket() {
+    private static void addTicketToBacket() {
         Tools.customLogger("> > Начал работу метод добавления билета в корзину");
     }
 

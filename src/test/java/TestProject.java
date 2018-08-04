@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import logic.CompareTicket;
 import model.Ticket;
 import org.junit.Test;
@@ -100,12 +101,11 @@ public class TestProject {
                 boolean isAddedTicket = CompareTicket.addUniqueTickets(ticket, 5);
                 if (isAddedTicket) {
                     WorkerInPage.selectTicket(ticket);
-                    WorkerInPage.addTicketToBacket();
-
                 }
             }
             listTempTicket.clear();
             WorkerInPage.updateListTicketOnPage();
+            Selenide.sleep(1000);//задержка иначе добавляет во временный набор первый билет с прошлой страницы
         }
         for (Ticket ticket : listUniqueTicket) {
             ticket.displayTicket();
