@@ -4,7 +4,6 @@ import model.CoincidenceStatistic;
 import model.Column;
 import model.Ticket;
 import model.TicketRow;
-import org.testng.Assert;
 import ru.bpirate.vsrftools.Tools;
 
 import java.util.*;
@@ -12,18 +11,18 @@ import java.util.*;
 public class CompareTicket {
     public static List<Ticket> listUniqueTicket = new LinkedList<Ticket>();
     public static List<Ticket> listTempTicket = new LinkedList<Ticket>();
+    public static Set<Ticket> listAllTicket = new HashSet<>();
+    public static Set<Ticket> listRepeatTicket = new HashSet();
+    public static int numberOfMatches = 5;
     private static int countTicket = 0;
 
-    public static boolean addUniqueTickets(Ticket ticket, int numberOfMatches) {
+    public static boolean addUniqueTickets(Ticket ticket) {
         Tools.customLogger("> > Начал работу метод добавления уникльных билетов");
         if (countTicket == 0) {
             Tools.customLogger("* Определите необходимое количество билетов в наборе!!!");
             return false;
         }
         for (Ticket tick : listUniqueTicket) {
-            if(tick.getNumber()==ticket.getNumber()){
-                Assert.fail("Билеты повторяются номер "+ ticket.getNumber());
-            }
             CoincidenceStatistic statistic = comparePairTicket(ticket, tick);
             if (statistic.getNumberCoincidence() > numberOfMatches) {
                 return false;
@@ -32,6 +31,7 @@ public class CompareTicket {
         Tools.customLogger("* Добавляю уникальный билет номер " + ticket.getNumber());
         listUniqueTicket.add(ticket);
         Tools.customLogger("* В наборе " + listUniqueTicket.size() + " билетов");
+        numberOfMatches++;
         return true;
     }
 
@@ -130,6 +130,25 @@ public class CompareTicket {
 
         }
         return cs;
+    }
+
+    public static void searchRepeatedTicket() {
+
+        Iterator<Ticket> itr = listTempTicket.iterator();
+        while (itr.hasNext()) {
+            Ticket ticket = itr.next();
+            for (Ticket AllTicked : listAllTicket) {
+                if (AllTicked.getNumber() == ticket.getNumber()) {
+                    Tools.customLogger("!!!!!!!!!!!!!!Билеты повторяются номер!!!!!!!!!!!!!!!! " + ticket.getNumber());
+                    listRepeatTicket.add(AllTicked);
+                    Tools.customLogger("!!!!!!!!!!!!!!Количество повторных билетов " + listRepeatTicket.size() + "!!!!!!!!!!!!!!!!!!!!!!!!");
+                    itr.remove();
+
+                }
+            }
+        }
+        listAllTicket.addAll(listTempTicket);
+        Tools.customLogger("*********************** Всего билетов " + listAllTicket.size()+ "*****************************");
     }
 
     public static List<Ticket> getListUniqueTicket() {
