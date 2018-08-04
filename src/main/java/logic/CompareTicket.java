@@ -4,6 +4,7 @@ import model.CoincidenceStatistic;
 import model.Column;
 import model.Ticket;
 import model.TicketRow;
+import org.testng.Assert;
 import ru.bpirate.vsrftools.Tools;
 
 import java.util.*;
@@ -20,6 +21,9 @@ public class CompareTicket {
             return false;
         }
         for (Ticket tick : listUniqueTicket) {
+            if(tick.getNumber()==ticket.getNumber()){
+                Assert.fail("Билеты повторяются номер "+ ticket.getNumber());
+            }
             CoincidenceStatistic statistic = comparePairTicket(ticket, tick);
             if (statistic.getNumberCoincidence() > numberOfMatches) {
                 return false;
