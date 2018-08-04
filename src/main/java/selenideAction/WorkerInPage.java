@@ -6,11 +6,12 @@ import model.Ticket;
 import model.TicketRow;
 import ru.bpirate.vsrftools.Tools;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.codeborne.selenide.Selectors.byClassName;
 import static com.codeborne.selenide.Selenide.$;
-import static logic.CompareTicket.listTicket;
+import static logic.CompareTicket.listTempTicket;
 
 public class WorkerInPage {
 
@@ -39,7 +40,7 @@ public class WorkerInPage {
                     ticket.getBotField().getSetTicketRow().add(ticketRow);
                 }
             }
-            listTicket.add(ticket);
+            listTempTicket.add(ticket);
         }
     }
 

@@ -2,7 +2,6 @@ package selenideAction;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import com.codeborne.selenide.webdriver.WebDriverFactory;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,7 +11,6 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.bpirate.vsrftools.Tools;
 
-import java.io.File;
 import java.util.logging.Level;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -35,4 +33,5 @@ public class Login {
         driver.manage().window().maximize();
         open("https://www.stoloto.ru/ruslotto/game");
     }
+
 }

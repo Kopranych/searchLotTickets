@@ -9,7 +9,8 @@ import ru.bpirate.vsrftools.Tools;
 import java.util.*;
 
 public class CompareTicket {
-    public static List<Ticket> listTicket = new LinkedList<Ticket>();
+    public static List<Ticket> listUniqueTicket = new LinkedList<Ticket>();
+    public static List<Ticket> listTempTicket = new LinkedList<Ticket>();
     private static int countTicket = 0;
 
     public static boolean addUniqueTickets(Ticket ticket, int numberOfMatches) {
@@ -18,19 +19,19 @@ public class CompareTicket {
             Tools.customLogger("* Определите необходимое количество билетов в наборе!!!");
             return false;
         }
-        for (Ticket tick : listTicket) {
+        for (Ticket tick : listUniqueTicket) {
             CoincidenceStatistic statistic = comparePairTicket(ticket, tick);
             if (statistic.getNumberCoincidence() > numberOfMatches) {
                 return false;
             }
         }
         Tools.customLogger("* Добавляю уникальный билет номер " + ticket.getNumber());
-        listTicket.add(ticket);
-        Tools.customLogger("* В наборе " + listTicket.size() + " билетов");
+        listUniqueTicket.add(ticket);
+        Tools.customLogger("* В наборе " + listUniqueTicket.size() + " билетов");
         return true;
     }
 
-    public static void movingFromFieldToColumns() {
+    public static void movingFromFieldToColumns(List<Ticket> listTicket) {
         Tools.customLogger("> > Начал работу метод переноса строк в колонки");
         for (Ticket ticket : listTicket) {
             Set<TicketRow> setRow = ticket.getTopField().getSetTicketRow();
@@ -40,7 +41,7 @@ public class CompareTicket {
         }
     }
 
-    public static void fromRowsToColumn(Set<TicketRow> setRow, Ticket ticket){
+    private static void fromRowsToColumn(Set<TicketRow> setRow, Ticket ticket){
         for (TicketRow  ticketRow: setRow){
             for(Integer i: ticketRow.getSetNumber()){
                 if(i<10){
@@ -105,7 +106,7 @@ public class CompareTicket {
         }
     }
 
-    public static CoincidenceStatistic comparePairTicket(Ticket oneTicket, Ticket twoTicket) {
+    private static CoincidenceStatistic comparePairTicket(Ticket oneTicket, Ticket twoTicket) {
         CoincidenceStatistic cs = new CoincidenceStatistic();
         Iterator it1 = oneTicket.getSetColumn().iterator();
         Iterator it2 = twoTicket.getSetColumn().iterator();
@@ -127,8 +128,8 @@ public class CompareTicket {
         return cs;
     }
 
-    public static List<Ticket> getListTicket() {
-        return listTicket;
+    public static List<Ticket> getListUniqueTicket() {
+        return listUniqueTicket;
     }
 
     public static void setCountTicket(int countTicket) {
