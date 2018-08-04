@@ -1,8 +1,6 @@
 import com.codeborne.selenide.Configuration;
 import logic.CompareTicket;
-import model.CoincidenceStatistic;
 import model.Ticket;
-import model.TicketRow;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import selenideAction.Login;
@@ -14,7 +12,8 @@ import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static logic.CompareTicket.listTicket;
+import static logic.CompareTicket.listTempTicket;
+import static logic.CompareTicket.listUniqueTicket;
 
 public class TestProject {
     @Test
@@ -40,15 +39,15 @@ public class TestProject {
         CompareTicket.fillTicket(two);
         System.out.println("Превый билет " + one.toString());
         System.out.println("Второй билет " + two.toString());
-        CoincidenceStatistic cs = CompareTicket.comparePairTicket(one, two);
-        System.out.println(cs.toString());
+//        CoincidenceStatistic cs = CompareTicket.comparePairTicket(one, two);
+//        System.out.println(cs.toString());
     }
 
     @Test
     public void testaddUniqueTickets() {
         CompareTicket.setCountTicket(10);
         int i = 1;
-        while (CompareTicket.getListTicket().size() < 10) {
+        while (CompareTicket.getListUniqueTicket().size() < 10) {
             Ticket ticket = new Ticket(i);
             CompareTicket.fillTicket(ticket);
             boolean isAdded = CompareTicket.addUniqueTickets(ticket, i);
@@ -57,7 +56,7 @@ public class TestProject {
             }
             i++;
         }
-        System.out.println(CompareTicket.getListTicket().size());
+        System.out.println(CompareTicket.getListUniqueTicket().size());
     }
 
     @Test
@@ -69,7 +68,7 @@ public class TestProject {
     public void testMoveFromFieldToColumn() {
         for (int i = 0; i < 10; i++) {
             Ticket ticket = new Ticket(i + 1);
-            listTicket.add(ticket);
+            listUniqueTicket.add(ticket);
         }
         Set<Integer> setNum1 = new HashSet<Integer>();
         Set<Integer> setNum2 = new HashSet<Integer>();
@@ -91,9 +90,24 @@ public class TestProject {
     @Test
     public void testworkSpase(){
         Login.setUp();
-        WorkerInPage.scanTicketOnPage();
-        CompareTicket.movingFromFieldToColumns();
-        for (Ticket ticket : listTicket) {
+//        Login.login("ilja_kapr@mail.ru", "Kopranych25");
+        CompareTicket.setCountTicket(10);
+        while(listUniqueTicket.size()<10) {
+            WorkerInPage.scanTicketOnPage();
+            CompareTicket.movingFromFieldToColumns(listTempTicket);
+
+            for (Ticket ticket : listTempTicket) {
+                boolean isAddedTicket = CompareTicket.addUniqueTickets(ticket, 5);
+                if (isAddedTicket) {
+                    WorkerInPage.selectTicket(ticket);
+                    WorkerInPage.addTicketToBacket();
+
+                }
+            }
+            listTempTicket.clear();
+            WorkerInPage.updateListTicketOnPage();
+        }
+        for (Ticket ticket : listUniqueTicket) {
             ticket.displayTicket();
         }
     }

@@ -13,6 +13,8 @@ import ru.bpirate.vsrftools.Tools;
 
 import java.util.logging.Level;
 
+import static com.codeborne.selenide.Selectors.byClassName;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class Login {
@@ -34,4 +36,15 @@ public class Login {
         open("https://www.stoloto.ru/ruslotto/game");
     }
 
+    public static void login(String login, String password){
+        /*Tools.customLogger("> > Логинимся на сайт");
+        $$(byClassName("pseudo")).findBy(text("Войти")).click();
+        $$(byClassName("pretty_form_item_content")).findBy(visible).$(byName("login")).sendKeys(login);
+        $$(byClassName("password")).findBy(visible).$(byName("password")).sendKeys(password);
+        $$(byClassName("submit_button_container")).findBy(text("Войти")).click();*/
+        $(byClassName("global_logo")).click();
+        $(byClassName("abbr_ruslotto")).click();
+        /*ElementsCollection colElement = $$(byClassName("widget__inner"));
+        colElement.findBy(visible).$$(byClassName("btn-small")).findBy(text("Нет, спасибо")).click();*/
+    }
 }
