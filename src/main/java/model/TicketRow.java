@@ -9,8 +9,7 @@ public class TicketRow {
 
     private Set<Cell> setCell = new HashSet<>();
 
-    public TicketRow(Set<Integer> setNumber, int numberRow) {
-        this.numberRow = numberRow;
+    public TicketRow(Set<Integer> setNumber) {
         this.setNumber = setNumber;
         for (Integer i : setNumber) {
             setCell.add(new Cell(i));
