@@ -1,9 +1,6 @@
 package logic;
 
-import model.CoincidenceStatistic;
-import model.Column;
-import model.Ticket;
-import model.TicketRow;
+import model.*;
 import ru.bpirate.vsrftools.Tools;
 
 import java.util.*;
@@ -31,7 +28,9 @@ public class CompareTicket {
         Tools.customLogger("* Добавляю уникальный билет номер " + ticket.getNumber());
         listUniqueTicket.add(ticket);
         Tools.customLogger("* В наборе " + listUniqueTicket.size() + " билетов");
-        numberOfMatches++;
+        if (numberOfMatches < 10) {
+            numberOfMatches++;
+        }
         return true;
     }
 
@@ -45,52 +44,52 @@ public class CompareTicket {
         }
     }
 
-    private static void fromRowsToColumn(Set<TicketRow> setRow, Ticket ticket){
-        for (TicketRow  ticketRow: setRow){
-            for(Integer i: ticketRow.getSetNumber()){
-                if(i<10){
+    private static void fromRowsToColumn(Set<TicketRow> setRow, Ticket ticket) {
+        for (TicketRow ticketRow : setRow) {
+            for (Integer i : ticketRow.getSetNumber()) {
+                if (i < 10) {
                     for (Column col : ticket.getSetColumn()) {
-                        if(col.getNumberColumn() == 1)
+                        if (col.getNumberColumn() == 1)
                             col.getSetNumber().add(i);
                     }
-                }else if(i>=10 && i<20){
+                } else if (i >= 10 && i < 20) {
                     for (Column col : ticket.getSetColumn()) {
-                        if(col.getNumberColumn() == 2)
+                        if (col.getNumberColumn() == 2)
                             col.getSetNumber().add(i);
                     }
-                }else if(i>=20&& i<30){
+                } else if (i >= 20 && i < 30) {
                     for (Column col : ticket.getSetColumn()) {
-                        if(col.getNumberColumn() == 3)
+                        if (col.getNumberColumn() == 3)
                             col.getSetNumber().add(i);
                     }
-                }else if(i>=30 && i<40){
+                } else if (i >= 30 && i < 40) {
                     for (Column col : ticket.getSetColumn()) {
-                        if(col.getNumberColumn() == 4)
+                        if (col.getNumberColumn() == 4)
                             col.getSetNumber().add(i);
                     }
-                }else if(i>=40 && i<50){
+                } else if (i >= 40 && i < 50) {
                     for (Column col : ticket.getSetColumn()) {
-                        if(col.getNumberColumn() == 5)
+                        if (col.getNumberColumn() == 5)
                             col.getSetNumber().add(i);
                     }
-                }else if(i>=50 && i<60){
+                } else if (i >= 50 && i < 60) {
                     for (Column col : ticket.getSetColumn()) {
-                        if(col.getNumberColumn() == 6)
+                        if (col.getNumberColumn() == 6)
                             col.getSetNumber().add(i);
                     }
-                }else if(i>=60 && i<70){
+                } else if (i >= 60 && i < 70) {
                     for (Column col : ticket.getSetColumn()) {
-                        if(col.getNumberColumn() == 7)
+                        if (col.getNumberColumn() == 7)
                             col.getSetNumber().add(i);
                     }
-                }else if(i>=70 && i<80){
+                } else if (i >= 70 && i < 80) {
                     for (Column col : ticket.getSetColumn()) {
-                        if(col.getNumberColumn() == 8)
+                        if (col.getNumberColumn() == 8)
                             col.getSetNumber().add(i);
                     }
-                }else if(i>=80 && i<91){
+                } else if (i >= 80 && i < 91) {
                     for (Column col : ticket.getSetColumn()) {
-                        if(col.getNumberColumn() == 9)
+                        if (col.getNumberColumn() == 9)
                             col.getSetNumber().add(i);
                     }
                 }
@@ -148,7 +147,7 @@ public class CompareTicket {
             }
         }
         listAllTicket.addAll(listTempTicket);
-        Tools.customLogger("*********************** Всего билетов " + listAllTicket.size()+ "*****************************");
+        Tools.customLogger("*********************** Всего билетов " + listAllTicket.size() + "*****************************");
     }
 
     public static List<Ticket> getListUniqueTicket() {
@@ -157,5 +156,21 @@ public class CompareTicket {
 
     public static void setCountTicket(int countTicket) {
         CompareTicket.countTicket = countTicket;
+    }
+
+    public static void movingFromRowToCell(Ticket ticket){
+        for (TicketRow row : ticket.getTopField().getSetTicketRow()) {
+            row.setSetCell(new HashSet<Cell>());
+            for (Integer i : row.getSetNumber()) {
+
+                row.getSetCell().add(new Cell(i));
+            }
+        }
+        for (TicketRow row : ticket.getBotField().getSetTicketRow()) {
+            row.setSetCell(new HashSet<Cell>());
+            for (Integer i : row.getSetNumber()) {
+                row.getSetCell().add(new Cell(i));
+            }
+        }
     }
 }
