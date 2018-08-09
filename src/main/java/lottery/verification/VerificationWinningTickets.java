@@ -11,23 +11,31 @@ import java.util.List;
 
 public class VerificationWinningTickets {
     public static List<Integer> countNumber = new LinkedList<>();
+    public static List<Ticket> listTicketFirstTour;
+    public static List<Ticket> listTicketSecondTour;
+    public static List<Ticket> listTicketNextTout;
 
 
-    public static void verificationWinningTicket(List<Ticket> ticketList, int number) {
+    public static void verificationWinningTicket(int number) {
         countNumber.add(number);
-        for (Ticket ticket : ticketList) {
-            crossedTicket(ticket, number);//вычеркиваем совпадающие цифры
-        }
-        if (countNumber.size() >= 5 || countNumber.size() <= 14) {//проверяем есть ли выигрышные билеты в первом туре
-            for (Ticket ticket : ticketList) {
-                verificationFirstTour(ticket);
+        if (countNumber.size() >= 5 && countNumber.size() <= 14) {//проверяем есть ли выигрышные билеты в первом туре
+            Iterator<Ticket> iteratorFirstTout = listTicketFirstTour.iterator();
+            while(iteratorFirstTout.hasNext()){
+                Ticket ticket = iteratorFirstTout.next();
+                if(verificationFirstTour(ticket)){
+                    iteratorFirstTout.remove();
+                }
             }
-        }else if (countNumber.size() >= 15 || countNumber.size()<=29) {
-            for (Ticket ticket : ticketList) {
-                verificationSecondTour(ticket);
+        }else if (countNumber.size() >= 15 && countNumber.size()<=29) {
+            Iterator<Ticket> iteratorSecondTout = listTicketSecondTour.iterator();
+            while(iteratorSecondTout.hasNext()){
+                Ticket ticket = iteratorSecondTout.next();
+                if(verificationSecondTour(ticket)){
+                    iteratorSecondTout.remove();
+                }
             }
         }else if(countNumber.size()>=30){
-            Iterator<Ticket> itr = ticketList.iterator();
+            Iterator<Ticket> itr = listTicketNextTout.iterator();
             while(itr.hasNext()){
                 Ticket ticket = itr.next();
                 boolean isWinner = verificationNextTour(ticket);
@@ -41,7 +49,7 @@ public class VerificationWinningTickets {
 
     }
 
-    public static void verificationFirstTour(Ticket ticket) {
+    public static boolean verificationFirstTour(Ticket ticket) {
         //первый тур
         boolean isWinner = true;
         for (TicketRow ticketRow : ticket.getTopField().getSetTicketRow()) {
@@ -53,8 +61,9 @@ public class VerificationWinningTickets {
             }
             if (isWinner) {
                 Tools.customLogger("Билет номер " + ticket.getNumber() + "ВЫИГРАЛ В ПЕРВОМ ТУРЕ СОВПОДННИЕМ СТРОКИ " + ticketRow.getSetCell());
-                return;
+                return isWinner;
             }
+            isWinner = true;
         }
         isWinner = true;
         for (TicketRow ticketRow : ticket.getBotField().getSetTicketRow()) {
@@ -66,14 +75,15 @@ public class VerificationWinningTickets {
             }
             if (isWinner) {
                 Tools.customLogger("Билет номер " + ticket.getNumber() + "ВЫИГРАЛ В ПЕРВОМ ТУРЕ СОВПОДННИЕМ СТРОКИ " + ticketRow.getSetCell());
-                return;
+                return isWinner;
             }
+            isWinner = true;
         }
-
-
+        isWinner = false;
+        return isWinner;
     }
 
-    public static void verificationSecondTour(Ticket ticket) {
+    public static boolean verificationSecondTour(Ticket ticket) {
         //второй тур
         boolean isWinner = true;
         int countCrossedNumber = 0;
@@ -93,7 +103,7 @@ public class VerificationWinningTickets {
         if (isWinner) {
             Tools.customLogger(
                     "Билет номер " + ticket.getNumber() + " ВЫИГРАЛ ВО ВТОРОМ ТУРЕ ПО ВЕРХНЕМУ ПОЛЮ");
-            return;
+            return isWinner;
         }
         isWinner = true;
         for (TicketRow ticketRow : ticket.getBotField().getSetTicketRow()) {
@@ -110,12 +120,13 @@ public class VerificationWinningTickets {
         }
         if (isWinner) {
             Tools.customLogger("Билет номер " + ticket.getNumber() + " ВЫИГРАЛ ВО ВТОРОМ ТУРЕ ПО НИЖНЕМУ ПОЛЮ");
-            return;
+            return isWinner;
         } else if (countCrossedNumber == 15 && countNumber.size() == 15) {
             Tools.customLogger("!!!!!ДЖЕКПОТ!!!!!!! " +
-                    "Билет номер " + ticket.getNumber() + "ВЫИГРАЛ ДЖЕКПОТ!!!!!!!! СОВПАДЕНИЕМ 15 ЧИСЕЛ");
-            return;
+                    "Билет номер " + ticket.getNumber() + "ВЫИГРАЛ ДЖЕКПОТ!!!!!!!! СОВПАДЕНИЕМ " + countCrossedNumber + " ЧИСЕЛ");
+            return isWinner;
         }
+        return isWinner;
     }
 
     public static boolean verificationNextTour(Ticket ticket) {
