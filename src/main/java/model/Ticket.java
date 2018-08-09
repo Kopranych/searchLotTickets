@@ -1,12 +1,14 @@
 package model;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Ticket {
     private final int number;
     private FieldTicket topField = new FieldTicket();
     private FieldTicket botField = new FieldTicket();
     private Set<Column> setColumn = new HashSet<Column>();
+    private int countIsCrossedNumber;
 
     public Ticket(int number) {
         this.number = number;
@@ -47,6 +49,24 @@ public class Ticket {
 
     public int getNumber() {
         return number;
+    }
+
+    public int getCountIsCrossedNumber(){
+        for (TicketRow ticketRow : this.getTopField().getSetTicketRow()) {
+            for (Cell cell : ticketRow.getSetCell()) {
+                if (cell.getCrossed()) {
+                    countIsCrossedNumber++;
+                }
+            }
+        }
+        for (TicketRow ticketRow : this.getBotField().getSetTicketRow()) {
+            for (Cell cell : ticketRow.getSetCell()) {
+                if (cell.getCrossed()) {
+                    countIsCrossedNumber++;
+                }
+            }
+        }
+            return countIsCrossedNumber;
     }
 
     public Set<Column> getSetColumn() {

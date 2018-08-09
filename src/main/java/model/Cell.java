@@ -35,6 +35,10 @@ public class Cell {
         isCrossed = crossed;
     }
 
+    public boolean getCrossed(){
+        return isCrossed;
+    }
+
     public int getValue() {
         return value;
     }
