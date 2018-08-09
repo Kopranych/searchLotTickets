@@ -9,6 +9,7 @@ import ru.bpirate.vsrftools.Tools;
 import selenideAction.Login;
 import selenideAction.WorkerInPage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
@@ -17,6 +18,7 @@ import java.util.Set;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static logic.CompareTicket.*;
+import static logic.ConvertingTicket.uploadTicket;
 
 public class TestProject {
     @Test
@@ -123,6 +125,11 @@ public class TestProject {
         for (Ticket ticket : listUniqueTicket) {
             ticket.displayTicket();
         }
+    }
+
+    @Test
+    public void testUploadJson(){
+        uploadTicket(new File("src\\main\\java\\data\\ticket\\" +  "2018-08-04T20-25-26-820").getPath());
     }
 }
 
