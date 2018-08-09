@@ -4,11 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.Ticket;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import static logic.CompareTicket.listUniqueTicket;
 
 public class ConvertingTicket {
 
@@ -33,5 +34,22 @@ public class ConvertingTicket {
         return folder.toString();
     }
 
-    public static void uploadTicket(String path){}
+    public static void uploadTicket(String path){
+        File dir = new File(path); //path указывает на директорию
+        File[] arrFiles = dir.listFiles();
+        List<File> lst = Arrays.asList(arrFiles);
+        for (File file :lst) {
+            BufferedReader reader = null;
+            try {
+                reader = new BufferedReader(new FileReader(file));
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                listUniqueTicket.add(gson.fromJson(reader, Ticket.class));
+
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } finally {
+
+            }
+        }
+    }
 }
