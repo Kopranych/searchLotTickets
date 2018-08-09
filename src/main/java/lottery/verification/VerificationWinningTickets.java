@@ -16,17 +16,17 @@ public class VerificationWinningTickets {
     public static List<Ticket> listTicketNextTout;
 
 
-    public static void verificationWinningTicket(int number) {
+    public static void verificationWinningTicket(int number, int numberTour) {
         countNumber.add(number);
-        if (countNumber.size() >= 5 && countNumber.size() <= 14) {//проверяем есть ли выигрышные билеты в первом туре
-            Iterator<Ticket> iteratorFirstTout = listTicketFirstTour.iterator();
-            while(iteratorFirstTout.hasNext()){
-                Ticket ticket = iteratorFirstTout.next();
+        if (numberTour == 1) {//проверяем есть ли выигрышные билеты в первом туре
+            Iterator<Ticket> iteratorFirstTour = listTicketFirstTour.iterator();
+            while(iteratorFirstTour.hasNext()){
+                Ticket ticket = iteratorFirstTour.next();
                 if(verificationFirstTour(ticket)){
-                    iteratorFirstTout.remove();
+                    iteratorFirstTour.remove();
                 }
             }
-        }else if (countNumber.size() >= 15 && countNumber.size()<=29) {
+        }else if (numberTour == 2) {
             Iterator<Ticket> iteratorSecondTout = listTicketSecondTour.iterator();
             while(iteratorSecondTout.hasNext()){
                 Ticket ticket = iteratorSecondTout.next();
@@ -34,7 +34,7 @@ public class VerificationWinningTickets {
                     iteratorSecondTout.remove();
                 }
             }
-        }else if(countNumber.size()>=30){
+        }else if(numberTour == 3){
             Iterator<Ticket> itr = listTicketNextTout.iterator();
             while(itr.hasNext()){
                 Ticket ticket = itr.next();
@@ -60,7 +60,7 @@ public class VerificationWinningTickets {
                 }
             }
             if (isWinner) {
-                Tools.customLogger("Билет номер " + ticket.getNumber() + "ВЫИГРАЛ В ПЕРВОМ ТУРЕ СОВПОДННИЕМ СТРОКИ " + ticketRow.getSetCell());
+                Tools.customLogger("Билет номер " + ticket.getNumber() + " ВЫИГРАЛ В ПЕРВОМ ТУРЕ СОВПОДННИЕМ СТРОКИ " + ticketRow.getSetCell());
                 return isWinner;
             }
             isWinner = true;
@@ -74,7 +74,7 @@ public class VerificationWinningTickets {
                 }
             }
             if (isWinner) {
-                Tools.customLogger("Билет номер " + ticket.getNumber() + "ВЫИГРАЛ В ПЕРВОМ ТУРЕ СОВПОДННИЕМ СТРОКИ " + ticketRow.getSetCell());
+                Tools.customLogger("Билет номер " + ticket.getNumber() + " ВЫИГРАЛ В ПЕРВОМ ТУРЕ СОВПОДННИЕМ СТРОКИ " + ticketRow.getSetCell());
                 return isWinner;
             }
             isWinner = true;
@@ -87,17 +87,14 @@ public class VerificationWinningTickets {
         //второй тур
         boolean isWinner = true;
         int countCrossedNumber = 0;
-
+        int countCrossed = ticket.getCountIsCrossedNumber();
         for (TicketRow ticketRow : ticket.getTopField().getSetTicketRow()) {
             for (Cell cell : ticketRow.getSetCell()) {
                 if (!cell.isCrossed()) {
                     isWinner = false;
-                    break;
+                }else {
+                    countCrossedNumber++;
                 }
-                countCrossedNumber++;
-            }
-            if (!isWinner) {
-                break;
             }
         }
         if (isWinner) {
@@ -110,12 +107,9 @@ public class VerificationWinningTickets {
             for (Cell cell : ticketRow.getSetCell()) {
                 if (!cell.isCrossed()) {
                     isWinner = false;
-                    break;
+                }else {
+                    countCrossedNumber++;
                 }
-                countCrossedNumber++;
-            }
-            if (!isWinner) {
-                break;
             }
         }
         if (isWinner) {
@@ -123,7 +117,8 @@ public class VerificationWinningTickets {
             return isWinner;
         } else if (countCrossedNumber == 15 && countNumber.size() == 15) {
             Tools.customLogger("!!!!!ДЖЕКПОТ!!!!!!! " +
-                    "Билет номер " + ticket.getNumber() + "ВЫИГРАЛ ДЖЕКПОТ!!!!!!!! СОВПАДЕНИЕМ " + countCrossedNumber + " ЧИСЕЛ");
+                    "Билет номер " + ticket.getNumber() + " ВЫИГРАЛ ДЖЕКПОТ!!!!!!!! СОВПАДЕНИЕМ " + countCrossedNumber + " ЧИСЕЛ");
+            isWinner = true;
             return isWinner;
         }
         return isWinner;
