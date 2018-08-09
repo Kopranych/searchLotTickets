@@ -24,6 +24,10 @@ public class TicketRow {
         return setCell;
     }
 
+    public void setSetCell(Set<Cell> setCell) {
+        this.setCell = setCell;
+    }
+
     public void setNumberRow(int numberRow) {
         this.numberRow = numberRow;
     }
