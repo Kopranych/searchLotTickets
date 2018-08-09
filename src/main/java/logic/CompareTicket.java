@@ -7,10 +7,14 @@ import java.util.*;
 
 public class CompareTicket {
     public static List<Ticket> listUniqueTicket = new LinkedList<Ticket>();
+    public static List<Ticket> listTicketContainUniqueNumbers = new LinkedList<>();
     public static List<Ticket> listTempTicket = new LinkedList<Ticket>();
     public static Set<Ticket> listAllTicket = new HashSet<>();
+    public static List<Integer> listRangeNumber = new ArrayList<>();
     public static Set<Ticket> listRepeatTicket = new HashSet();
     public static int numberOfMatches = 5;
+    private static int countUniqueNumbers = 0;
+    private static int countUniqueNumbersPermission = 5;
     private static int countTicket = 0;
 
     public static boolean addUniqueTickets(Ticket ticket) {
@@ -32,6 +36,37 @@ public class CompareTicket {
             numberOfMatches++;
         }
         return true;
+    }
+
+    public static boolean addTicketContainUniqueNumbers(Ticket ticket) {
+        List<Integer> listTempNumbers = new ArrayList<>();
+        for (TicketRow ticketRow : ticket.getTopField().getSetTicketRow()) {
+            for (Cell cell : ticketRow.getSetCell()) {
+                for (Integer i : listRangeNumber) {
+                    if (cell.getValue() == i) {
+                        countUniqueNumbers++;
+                        listTempNumbers.add(i);
+                    }
+                }
+            }
+        }
+        for (TicketRow ticketRow : ticket.getBotField().getSetTicketRow()) {
+            for (Cell cell : ticketRow.getSetCell()) {
+                for (Integer i : listRangeNumber) {
+                    if (cell.getValue() == i) {
+                        countUniqueNumbers++;
+                        listTempNumbers.add(i);
+                    }
+                }
+            }
+        }
+        if (countUniqueNumbers > countUniqueNumbersPermission){
+            listRangeNumber.removeAll(listTempTicket);
+            listTicketContainUniqueNumbers.add(ticket);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public static void movingFromFieldToColumns(List<Ticket> listTicket) {
@@ -158,7 +193,7 @@ public class CompareTicket {
         CompareTicket.countTicket = countTicket;
     }
 
-    public static void movingFromRowToCell(Ticket ticket){
+    public static void movingFromRowToCell(Ticket ticket) {
         for (TicketRow row : ticket.getTopField().getSetTicketRow()) {
             row.setSetCell(new HashSet<Cell>());
             for (Integer i : row.getSetNumber()) {
