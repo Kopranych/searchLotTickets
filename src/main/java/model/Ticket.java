@@ -9,6 +9,10 @@ public class Ticket {
     private FieldTicket botField = new FieldTicket();
     private Set<Column> setColumn = new HashSet<Column>();
     private int countIsCrossedNumber;
+    private boolean isWinFirstTour = false;
+    private boolean isWinSecondfTour = false;
+    private boolean isWinNextTour = false;
+    private boolean isWinJackpot = false;
 
     public Ticket(int number) {
         this.number = number;
@@ -92,6 +96,38 @@ public class Ticket {
             System.out.println(col.getSetNumber());
         }
         System.out.println("");
+    }
+
+    public boolean isWinFirstTour() {
+        return isWinFirstTour;
+    }
+
+    public void setWinFirstTour(boolean winFirstTour) {
+        isWinFirstTour = winFirstTour;
+    }
+
+    public boolean isWinSecondfTour() {
+        return isWinSecondfTour;
+    }
+
+    public void setWinSecondfTour(boolean winSecondfTour) {
+        isWinSecondfTour = winSecondfTour;
+    }
+
+    public boolean isWinNextTour() {
+        return isWinNextTour;
+    }
+
+    public void setWinNextTour(boolean winNextTour) {
+        isWinNextTour = winNextTour;
+    }
+
+    public boolean isWinJackpot() {
+        return isWinJackpot;
+    }
+
+    public void setWinJackpot(boolean winJackpot) {
+        isWinJackpot = winJackpot;
     }
 
     @Override
