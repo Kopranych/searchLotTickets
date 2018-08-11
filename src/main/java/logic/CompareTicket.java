@@ -12,9 +12,9 @@ public class CompareTicket {
     public static Set<Ticket> listAllTicket = new HashSet<>();
     public static List<Integer> listRangeNumber = new ArrayList<>();
     public static Set<Ticket> listRepeatTicket = new HashSet();
-    public static int numberOfMatches = 5;
+    public static int numberOfMatches = 4;
     private static int countUniqueNumbers = 0;
-    private static int countUniqueNumbersPermission = 5;
+    public static int countUniqueNumbersPermission = 5;
     private static int countTicket = 0;
 
     public static boolean addUniqueTickets(Ticket ticket) {
@@ -48,6 +48,14 @@ public class CompareTicket {
                         listTempNumbers.add(i);
                     }
                 }
+                /*Iterator<Integer> itr = listRangeNumber.iterator();
+                while(itr.hasNext()){
+                    Integer i = itr.next();
+                    if (cell.getValue() == i) {
+                        countUniqueNumbers++;
+                        itr.remove();
+                    }
+                }*/
             }
         }
         for (TicketRow ticketRow : ticket.getBotField().getSetTicketRow()) {
@@ -61,10 +69,12 @@ public class CompareTicket {
             }
         }
         if (countUniqueNumbers > countUniqueNumbersPermission){
-            listRangeNumber.removeAll(listTempTicket);
+            listRangeNumber.removeAll(listTempNumbers);
             listTicketContainUniqueNumbers.add(ticket);
+            countUniqueNumbers = 0;
             return true;
         }else {
+            countUniqueNumbers = 0;
             return false;
         }
     }
