@@ -3,6 +3,7 @@ package logic;
 import com.codeborne.selenide.Configuration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.StatisticTickets;
 import model.Ticket;
 import ru.bpirate.vsrftools.Tools;
 
@@ -14,6 +15,8 @@ import java.util.List;
 import static logic.CompareTicket.listUniqueTicket;
 
 public class ConvertingTicket {
+    private static final String PATH = "src\\main\\java\\data\\ticket\\";
+    private static String dateString = LocalDateTime.now().toString();
 
     public static void saveTicket(Ticket ticket, String path) throws IOException {
         Writer write = null;
@@ -29,9 +32,9 @@ public class ConvertingTicket {
     }
 
     public static String createFolder() {
-        String dateString = LocalDateTime.now().toString();
+
         dateString = dateString.replaceAll("[:\\.]", "-");
-        File folder = new File("src\\main\\java\\data\\ticket\\" + dateString);
+        File folder = new File(PATH + dateString);
         folder.mkdir();
         Configuration.reportsFolder = new String(folder.toString() + "\\screenshots");
         return folder.toString();
@@ -56,11 +59,11 @@ public class ConvertingTicket {
         }
     }
 
-    public static void saveInformation(String path, String write) {
+    public static void saveInformation(StatisticTickets statisticTickets) {
         FileWriter writer = null;
         try {
-            writer = new FileWriter(path + name);
-            writer.write(write);
+            writer = new FileWriter(PATH + dateString + "\\"+ statisticTickets.getNumberTirage());
+            writer.write(statisticTickets.displayStatistic(listUniqueTicket));
             writer.flush();
             writer.close();
         } catch (IOException e) {

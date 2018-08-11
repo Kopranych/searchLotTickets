@@ -14,21 +14,25 @@ import static lottery.verification.VerificationWinningTickets.*;
 public class Start {
 
     public static void main(String[] args) {
-        Set<Integer> setNumberOutBag = new HashSet<>();
-        List<Integer> listRangeNumber = new ArrayList<>();
+        Tools.customLogger("> > Начала работу программа проверки выигрышных билетов");
+        Tools.customLogger("* Введите номер тиража");
+        Scanner scan = new Scanner(System.in);
+        statisticTickets.setNumberTirage(scan.nextInt());
+        Set<Integer> setNumberOutBag = new HashSet();
+        List<Integer> listRangeNumber = new ArrayList();
         for (int i = 0; i < 90; i++) {
             listRangeNumber.add(i, i + 1);
         }
         int countEnteredNumber = 0;
-        Tools.customLogger("> > Начала работу программа проверки выигрышных билетов");
+
         ConvertingTicket.uploadTicket(new File("src\\main\\java\\data\\ticket\\" + "2018-08-04T20-25-26-820").getPath());
         for (Ticket ticket : listUniqueTicket) {
             CompareTicket.movingFromRowToCell(ticket);
         }
         int numberOutBag = 1;
-        listTicketFirstTour = new LinkedList<>(listUniqueTicket);
-        listTicketSecondTour = new LinkedList<>(listUniqueTicket);
-        listTicketNextTout = new LinkedList<>(listUniqueTicket);
+        listTicketFirstTour = new LinkedList(listUniqueTicket);
+        listTicketSecondTour = new LinkedList(listUniqueTicket);
+        listTicketNextTout = new LinkedList(listUniqueTicket);
 
         while (numberOutBag != 100) {
             Tools.customLogger("* Ход " + ++countEnteredNumber + " введите число от 1 до 90");
@@ -40,7 +44,7 @@ public class Start {
             }
             if (setNumberOutBag.add(numberOutBag) & numberOutBag <= 90) {
                 Tools.customLogger("* Введите номер тура");
-                Scanner scan = new Scanner(System.in);
+                Scanner scanner1 = new Scanner(System.in);
                 int numTour = scan.nextInt();
 
                 listRangeNumber.remove(new Integer(numberOutBag));
@@ -68,7 +72,7 @@ public class Start {
                     System.out.print(i + ", ");
                 }
             }
-
+            ConvertingTicket.saveInformation(statisticTickets);
         }
         /*
         * TODO выводить статистику по всем билетам в конце
