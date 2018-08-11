@@ -5,5 +5,6 @@ public enum WinTour {
     SECOND,
     NEXT,
     JACKPOT,
+    KUBYSHKA,
     NOTHING
 }

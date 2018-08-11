@@ -7,6 +7,7 @@ public class StatisticTickets {
     private List<Ticket> listTicketWin = new LinkedList<Ticket>();
     private List<Ticket> listTicketTotal = new LinkedList<Ticket>();
     private int numberTirage;
+    private List<Integer> listRemainingNumbers;
 
     public List<Ticket> getListTicketWin() {
         return listTicketWin;
@@ -22,6 +23,14 @@ public class StatisticTickets {
 
     public void setListTicketTotal(List<Ticket> listTicketTotal) {
         this.listTicketTotal = listTicketTotal;
+    }
+
+    public List<Integer> getListRemainingNumbers() {
+        return listRemainingNumbers;
+    }
+
+    public void setListRemainingNumbers(List<Integer> listRemainingNumbers) {
+        this.listRemainingNumbers = listRemainingNumbers;
     }
 
     public int getNumberTirage() {
@@ -41,6 +50,10 @@ public class StatisticTickets {
         }
         for (Ticket ticket : listTicketTotal) {
             informTicket.append(ticket.getNumber() + " | " + ticket.getCountIsCrossedNumber() + " | " + ticket.win.name() + "\r\n");
+        }
+        informTicket.append("Оставшиеся числа тиража\r\n");
+        for (Integer i : listRemainingNumbers) {
+            informTicket.append(i + ", ");
         }
 
         String information = "Номер тиража " + numberTirage + "\r\n" +
