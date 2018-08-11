@@ -1,9 +1,6 @@
 package lottery.verification;
 
-import model.Cell;
-import model.StatisticTickets;
-import model.Ticket;
-import model.TicketRow;
+import model.*;
 import ru.bpirate.vsrftools.Tools;
 
 import java.util.Iterator;
@@ -65,7 +62,7 @@ public class VerificationWinningTickets {
             }
             if (isWinner) {
                 Tools.customLogger("Билет номер " + ticket.getNumber() + " ВЫИГРАЛ В ПЕРВОМ ТУРЕ СОВПОДННИЕМ СТРОКИ " + ticketRow.getSetCell());
-                ticket.setWinFirstTour(isWinner);
+                ticket.win = WinTour.FIRST;
                 return isWinner;
             }
             isWinner = true;
@@ -80,7 +77,7 @@ public class VerificationWinningTickets {
             }
             if (isWinner) {
                 Tools.customLogger("Билет номер " + ticket.getNumber() + " ВЫИГРАЛ В ПЕРВОМ ТУРЕ СОВПОДННИЕМ СТРОКИ " + ticketRow.getSetCell());
-                ticket.setWinFirstTour(isWinner);
+                ticket.win = WinTour.FIRST;
                 return isWinner;
             }
             isWinner = true;
@@ -106,7 +103,7 @@ public class VerificationWinningTickets {
         if (isWinner) {
             Tools.customLogger(
                     "Билет номер " + ticket.getNumber() + " ВЫИГРАЛ ВО ВТОРОМ ТУРЕ ПО ВЕРХНЕМУ ПОЛЮ");
-            ticket.setWinSecondfTour(isWinner);
+            ticket.win = WinTour.SECOND;
             return isWinner;
         }
         isWinner = true;
@@ -121,13 +118,13 @@ public class VerificationWinningTickets {
         }
         if (isWinner) {
             Tools.customLogger("Билет номер " + ticket.getNumber() + " ВЫИГРАЛ ВО ВТОРОМ ТУРЕ ПО НИЖНЕМУ ПОЛЮ");
-            ticket.setWinSecondfTour(isWinner);
+            ticket.win = WinTour.SECOND;
             return isWinner;
         } else if (countCrossedNumber == 15 && countNumber.size() == 15) {
             Tools.customLogger("!!!!!ДЖЕКПОТ!!!!!!! " +
                     "Билет номер " + ticket.getNumber() + " ВЫИГРАЛ ДЖЕКПОТ!!!!!!!! СОВПАДЕНИЕМ " + countCrossedNumber + " ЧИСЕЛ");
             isWinner = true;
-            ticket.setWinJackpot(isWinner);
+            ticket.win = WinTour.JACKPOT;
             return isWinner;
         }
         return isWinner;
@@ -158,7 +155,7 @@ public class VerificationWinningTickets {
         }
         if (isWinner) {
             Tools.customLogger("Билет номер " + ticket.getNumber() + " ВЫИГРАЛ В ПОСЛЕДУЮЩЕМ ТУРЕ СОВПАДЕНИЕМ ВСЕХ ЧИСЕЛ В БИЛЕТЕ = " + countCrossedNumber);
-            ticket.setWinNextTour(isWinner);
+            ticket.win = WinTour.NEXT;
             return isWinner;
         }
         return isWinner;
