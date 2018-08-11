@@ -3,6 +3,7 @@ import com.codeborne.selenide.Selenide;
 import logic.CompareTicket;
 import logic.ConvertingTicket;
 import model.Ticket;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import ru.bpirate.vsrftools.Tools;
@@ -98,6 +99,9 @@ public class TestProject {
 //        Login.login("ilja_kapr@mail.ru", "Kopranych25");
         CompareTicket.setCountTicket(10);
         String pathFolder = ConvertingTicket.createFolder();
+        final Logger log = Logger.getLogger(TestProject.class);
+        System.setProperty("logPath.", pathFolder);
+        log.info("Начало работы метода набора билетов");
         while(listUniqueTicket.size()<10) {
             WorkerInPage.scanTicketOnPage();
             CompareTicket.movingFromFieldToColumns(listTempTicket);
@@ -125,6 +129,9 @@ public class TestProject {
         for (Ticket ticket : listUniqueTicket) {
             ticket.displayTicket();
         }
+        log.info("Конец подборв билетов");
+        log.info("Количество повторных билетов " + listRepeatTicket.size());
+        log.info("Всего просмотренно билетов " + listAllTicket.size());
     }
 
     @Test

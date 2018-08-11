@@ -72,7 +72,7 @@ public class ConvertingTicket {
         }
     }
 
-    public static void statisticsCollection() {
-
+    private static String searchOldFolderName(String path){
+        return null;
     }
 }
