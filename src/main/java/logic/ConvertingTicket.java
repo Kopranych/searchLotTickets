@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static logic.CompareTicket.listUniqueTicket;
+import static lottery.verification.VerificationWinningTickets.listTicketNextTout;
 
 public class ConvertingTicket {
     public static final String PATH = "src\\main\\java\\data\\ticket\\";
@@ -65,8 +66,8 @@ public class ConvertingTicket {
     public static void saveInformation(StatisticTickets statisticTickets) {
         FileWriter writer = null;
         try {
-            writer = new FileWriter(PATH + "2018-08-11T11-59-49-299" + "\\"+ statisticTickets.getNumberTirage());
-            writer.write(statisticTickets.displayStatistic(listUniqueTicket));
+            writer = new FileWriter(PATH + "2018-08-11T16-09-47-218contains" + "\\"+ statisticTickets.getNumberTirage());
+            writer.write(statisticTickets.displayStatistic(listTicketNextTout));
             writer.flush();
             writer.close();
         } catch (IOException e) {

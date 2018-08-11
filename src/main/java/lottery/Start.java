@@ -1,6 +1,5 @@
 package lottery;
 
-import logic.CompareTicket;
 import logic.ConvertingTicket;
 import model.Ticket;
 import ru.bpirate.vsrftools.Tools;
@@ -25,10 +24,10 @@ public class Start {
         }
         int countEnteredNumber = 0;
 
-        ConvertingTicket.uploadTicket(new File("src\\main\\java\\data\\ticket\\" + "2018-08-04T20-25-26-820").getPath());
-        for (Ticket ticket : listUniqueTicket) {
+        ConvertingTicket.uploadTicket(new File("src\\main\\java\\data\\ticket\\" + "2018-08-11T16-09-47-218contains").getPath());
+/*        for (Ticket ticket : listUniqueTicket) {
             CompareTicket.movingFromRowToCell(ticket);
-        }
+        }*/
         int numberOutBag = 1;
         listTicketFirstTour = new LinkedList(listUniqueTicket);
         listTicketSecondTour = new LinkedList(listUniqueTicket);
@@ -64,7 +63,7 @@ public class Start {
                     crossedTicket(ticket, numberOutBag);//вычеркиваем совпадающие цифры
                 }
 
-                verificationWinningTicket(numberOutBag, numTour);
+                verificationWinningTicket(numberOutBag, numTour, listRangeNumber);
             } else {
                 Tools.customLogger("Такая цифра " + numberOutBag + " уже была");
                 Tools.customLogger("Попробуйте цифру из списка");
@@ -72,8 +71,14 @@ public class Start {
                     System.out.print(i + ", ");
                 }
             }
-            ConvertingTicket.saveInformation(statisticTickets);
         }
+        Tools.customLogger("Оставшиеся цифры");
+        for (Integer i : listRangeNumber) {
+            System.out.print(i + ", ");
+        }
+        statisticTickets.setListRemainingNumbers(listRangeNumber);
+        ConvertingTicket.saveInformation(statisticTickets);
+    }
         /*
         * TODO выводить статистику по всем билетам в конце
         * TODO проверить на невыпавшие числа
@@ -81,5 +86,5 @@ public class Start {
         * в файле записать номера билетов, сколько совпавших чисел для каждого билета
         * показать выигрышные билеты в каком туре они выиграли
         * какой номер тиража и название типа коллекции билетов*/
-    }
 }
+
