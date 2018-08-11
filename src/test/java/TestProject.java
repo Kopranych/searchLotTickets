@@ -98,7 +98,7 @@ public class TestProject {
         Login.setUp();
 //        Login.login("ilja_kapr@mail.ru", "Kopranych25");
         CompareTicket.setCountTicket(10);
-        String pathFolder = ConvertingTicket.createFolder();
+        String pathFolder = ConvertingTicket.createFolder("unique");
         final Logger log = Logger.getLogger(TestProject.class);
         System.setProperty("logPath.", pathFolder);
         log.info("Начало работы метода набора билетов");

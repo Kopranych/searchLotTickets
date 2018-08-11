@@ -15,8 +15,8 @@ import java.util.List;
 import static logic.CompareTicket.listUniqueTicket;
 
 public class ConvertingTicket {
-    private static final String PATH = "src\\main\\java\\data\\ticket\\";
-    private static String dateString = LocalDateTime.now().toString();
+    public static final String PATH = "src\\main\\java\\data\\ticket\\";
+    public static String dateString = LocalDateTime.now().toString();
 
     public static void saveTicket(Ticket ticket, String path) throws IOException {
         Writer write = null;
@@ -31,10 +31,10 @@ public class ConvertingTicket {
 
     }
 
-    public static String createFolder() {
+    public static String createFolder(String nameFolder) {
 
         dateString = dateString.replaceAll("[:\\.]", "-");
-        File folder = new File(PATH + dateString);
+        File folder = new File(PATH + dateString + nameFolder);
         folder.mkdir();
         Configuration.reportsFolder = new String(folder.toString() + "\\screenshots");
         return folder.toString();
@@ -45,6 +45,9 @@ public class ConvertingTicket {
         File[] arrFiles = dir.listFiles();
         List<File> lst = Arrays.asList(arrFiles);
         for (File file : lst) {
+            if(file.isDirectory()){
+                continue;
+            }
             BufferedReader reader = null;
             try {
                 reader = new BufferedReader(new FileReader(file));
@@ -62,7 +65,7 @@ public class ConvertingTicket {
     public static void saveInformation(StatisticTickets statisticTickets) {
         FileWriter writer = null;
         try {
-            writer = new FileWriter(PATH + dateString + "\\"+ statisticTickets.getNumberTirage());
+            writer = new FileWriter(PATH + "2018-08-11T11-59-49-299" + "\\"+ statisticTickets.getNumberTirage());
             writer.write(statisticTickets.displayStatistic(listUniqueTicket));
             writer.flush();
             writer.close();
