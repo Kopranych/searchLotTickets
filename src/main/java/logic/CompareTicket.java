@@ -12,9 +12,10 @@ public class CompareTicket {
     public static Set<Ticket> listAllTicket = new HashSet<>();
     public static List<Integer> listRangeNumber = new ArrayList<>();
     public static Set<Ticket> listRepeatTicket = new HashSet();
+    public static List<Ticket> listRandomTicket = new LinkedList<>();
     public static int numberOfMatches = 4;
     private static int countUniqueNumbers = 0;
-    public static int countUniqueNumbersPermission = 5;
+    public static int countUniqueNumbersPermission = 19;
     private static int countTicket = 0;
 
     public static boolean addUniqueTickets(Ticket ticket) {
@@ -48,14 +49,6 @@ public class CompareTicket {
                         listTempNumbers.add(i);
                     }
                 }
-                /*Iterator<Integer> itr = listRangeNumber.iterator();
-                while(itr.hasNext()){
-                    Integer i = itr.next();
-                    if (cell.getValue() == i) {
-                        countUniqueNumbers++;
-                        itr.remove();
-                    }
-                }*/
             }
         }
         for (TicketRow ticketRow : ticket.getBotField().getSetTicketRow()) {
@@ -68,15 +61,26 @@ public class CompareTicket {
                 }
             }
         }
-        if (countUniqueNumbers > countUniqueNumbersPermission){
+
+        if (countUniqueNumbers > countUniqueNumbersPermission) {
             listRangeNumber.removeAll(listTempNumbers);
             listTicketContainUniqueNumbers.add(ticket);
             countUniqueNumbers = 0;
             return true;
-        }else {
+        } else if (listRangeNumber.size() < 20) {
+            if (countUniqueNumbers == listRangeNumber.size()|| countUniqueNumbers > 7) {
+                listRangeNumber.removeAll(listTempNumbers);
+                listTicketContainUniqueNumbers.add(ticket);
+                Tools.customLogger("* Количество уникальных чисел в добавленном билете: "+ countUniqueNumbers +" когда количество не добавленных чисел равен " + listRangeNumber.size());
+                countUniqueNumbers = 0;
+                return true;
+            }
+        } else {
+            Tools.customLogger("Количество уникальных чисел в недобавленном билете " + countUniqueNumbers);
             countUniqueNumbers = 0;
             return false;
         }
+        return false;
     }
 
     public static void movingFromFieldToColumns(List<Ticket> listTicket) {
