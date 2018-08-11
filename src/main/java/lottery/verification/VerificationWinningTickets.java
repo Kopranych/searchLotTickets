@@ -14,39 +14,52 @@ public class VerificationWinningTickets {
     public static List<Ticket> listTicketNextTout;
     public static StatisticTickets statisticTickets = new StatisticTickets();
 
-    public static void verificationWinningTicket(int number, int numberTour) {
+    public static void verificationWinningTicket(int number, int numberTour, List<Integer> listLastNumber) {
         countNumber.add(number);
-        if (numberTour == 1) {//проверяем есть ли выигрышные билеты в первом туре
-            Iterator<Ticket> iteratorFirstTour = listTicketFirstTour.iterator();
-            while(iteratorFirstTour.hasNext()){
-                Ticket ticket = iteratorFirstTour.next();
-                if(verificationFirstTour(ticket)){
-                    statisticTickets.getListTicketWin().add(ticket);
-                    iteratorFirstTour.remove();
+        switch (numberTour) {
+            case 1: //проверяем есть ли выигрышные билеты в первом туре
+                Iterator<Ticket> iteratorFirstTour = listTicketFirstTour.iterator();
+                while (iteratorFirstTour.hasNext()) {
+                    Ticket ticket = iteratorFirstTour.next();
+                    if (verificationFirstTour(ticket)) {
+                        statisticTickets.getListTicketWin().add(ticket);
+                        iteratorFirstTour.remove();
+                    }
                 }
-            }
-        }else if (numberTour == 2) {
-            Iterator<Ticket> iteratorSecondTout = listTicketSecondTour.iterator();
-            while(iteratorSecondTout.hasNext()){
-                Ticket ticket = iteratorSecondTout.next();
-                if(verificationSecondTour(ticket)){
-                    statisticTickets.getListTicketWin().add(ticket);
-                    iteratorSecondTout.remove();
+                break;
+            case 2:
+                Iterator<Ticket> iteratorSecondTout = listTicketSecondTour.iterator();
+                while (iteratorSecondTout.hasNext()) {
+                    Ticket ticket = iteratorSecondTout.next();
+                    if (verificationSecondTour(ticket)) {
+                        statisticTickets.getListTicketWin().add(ticket);
+                        iteratorSecondTout.remove();
+                    }
                 }
-            }
-        }else if(numberTour == 3){
-            Iterator<Ticket> itr = listTicketNextTout.iterator();
-            while(itr.hasNext()){
-                Ticket ticket = itr.next();
-                boolean isWinner = verificationNextTour(ticket);
-                if(isWinner){
-                    statisticTickets.getListTicketWin().add(ticket);
-                    itr.remove();
+                break;
+            case 3:
+                Iterator<Ticket> itr = listTicketNextTout.iterator();
+                while (itr.hasNext()) {
+                    Ticket ticket = itr.next();
+                    boolean isWinner = verificationNextTour(ticket);
+                    if (isWinner) {
+                        statisticTickets.getListTicketWin().add(ticket);
+                        itr.remove();
+                    }
                 }
-            }
+                break;
+            case 4:
+                Iterator<Ticket> itrKub = listTicketNextTout.iterator();
+                while (itrKub.hasNext()) {
+                    Ticket ticket = itrKub.next();
+                    boolean isWinner = verificationKubyshka(ticket, listLastNumber);
+                    if (isWinner) {
+                        statisticTickets.getListTicketWin().add(ticket);
+                        itrKub.remove();
+                    }
+                }
+                break;
         }
-
-
 
     }
 
@@ -95,7 +108,7 @@ public class VerificationWinningTickets {
             for (Cell cell : ticketRow.getSetCell()) {
                 if (!cell.isCrossed()) {
                     isWinner = false;
-                }else {
+                } else {
                     countCrossedNumber++;
                 }
             }
@@ -111,7 +124,7 @@ public class VerificationWinningTickets {
             for (Cell cell : ticketRow.getSetCell()) {
                 if (!cell.isCrossed()) {
                     isWinner = false;
-                }else {
+                } else {
                     countCrossedNumber++;
                 }
             }
@@ -159,6 +172,54 @@ public class VerificationWinningTickets {
             return isWinner;
         }
         return isWinner;
+    }
+
+    public static boolean verificationKubyshka(Ticket ticket, List<Integer> listLastNumber){
+        //кубышка
+        List<Integer> listLastNumberBotField = new LinkedList(listLastNumber);
+        boolean isWinner = true;
+        int countCrossedNumber = 0;
+        int countCrossed = ticket.getCountIsCrossedNumber();
+        Iterator<Integer> iteratorTop = listLastNumber.iterator();
+        for (TicketRow ticketRow : ticket.getTopField().getSetTicketRow()) {
+            for (Cell cell : ticketRow.getSetCell()) {
+                while (iteratorTop.hasNext()) {
+                    Integer numberLast = iteratorTop.next();
+                    if (!cell.getCrossed()) {
+                        if (cell.getValue() == numberLast) {
+                            iteratorTop.remove();
+                        }
+                    }
+                }
+            }
+        }
+        if (listLastNumber.size() == 0) {
+            Tools.customLogger(
+                    "Билет номер " + ticket.getNumber() + " ВЫИГРАЛ В КУБЫШКЕ ПО ВЕРХНЕМУ ПОЛЮ");
+            ticket.win = WinTour.KUBYSHKA;
+            return isWinner;
+        }
+        isWinner = true;
+        Iterator<Integer> iteratorBot = listLastNumberBotField.iterator();
+        for (TicketRow ticketRow : ticket.getBotField().getSetTicketRow()) {
+            for (Cell cell : ticketRow.getSetCell()) {
+                while (iteratorBot.hasNext()) {
+                    Integer numberLast = iteratorBot.next();
+                    if (!cell.getCrossed()) {
+                        if (cell.getValue() == numberLast) {
+                            iteratorBot.remove();
+                        }
+                    }
+                }
+            }
+        }
+        if (listLastNumberBotField.size() == 0) {
+            Tools.customLogger(
+                    "Билет номер " + ticket.getNumber() + " ВЫИГРАЛ В КУБЫШКЕ ПО НИЖНЕМУ ПОЛЮ");
+            ticket.win = WinTour.KUBYSHKA;
+            return isWinner;
+        }
+        return false;
     }
 
     public static void crossedTicket(Ticket ticket, int number) {
