@@ -4,8 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class StatisticTickets {
-    List<Ticket> listTicketWin = new LinkedList<Ticket>();
-    List<Ticket> listTicketTotal = new LinkedList<Ticket>();
+    private List<Ticket> listTicketWin = new LinkedList<Ticket>();
+    private List<Ticket> listTicketTotal = new LinkedList<Ticket>();
+    private int numberTirage;
 
     public List<Ticket> getListTicketWin() {
         return listTicketWin;
@@ -23,11 +24,29 @@ public class StatisticTickets {
         this.listTicketTotal = listTicketTotal;
     }
 
-    @Override
-    public String toString(List<Ticket> listTicket){
+    public int getNumberTirage() {
+        return numberTirage;
+    }
+
+    public void setNumberTirage(int numberTirage) {
+        this.numberTirage = numberTirage;
+    }
+
+    public String displayStatistic(List<Ticket> listTicket) {
         listTicketTotal.addAll(listTicket);
-        listTicketTotal.;
-        String information = "Список билетов "
-        return null;
+        listTicketTotal.removeAll(listTicketWin);
+        StringBuffer informTicket = new StringBuffer();
+        for (Ticket ticket : listTicketWin) {
+            informTicket.append(ticket.getNumber() + " | " + ticket.getCountIsCrossedNumber() + " | " + ticket.win.name() + "\r\n");
+        }
+        for (Ticket ticket : listTicketTotal) {
+            informTicket.append(ticket.getNumber() + " | " + ticket.getCountIsCrossedNumber() + " | " + ticket.win.name() + "\r\n");
+        }
+
+        String information = "Номер тиража " + numberTirage + "\r\n" +
+                "Список билетов \r\n " +
+                "Номер билета Кол. совп. Выиграл Тур\r\n" + informTicket.toString();
+
+        return information;
     }
 }
