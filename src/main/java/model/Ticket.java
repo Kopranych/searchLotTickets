@@ -53,6 +53,7 @@ public class Ticket {
     }
 
     public int getCountIsCrossedNumber(){
+        countIsCrossedNumber = 0;
         for (TicketRow ticketRow : this.getTopField().getSetTicketRow()) {
             for (Cell cell : ticketRow.getSetCell()) {
                 if (cell.getCrossed()) {

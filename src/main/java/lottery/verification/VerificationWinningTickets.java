@@ -103,7 +103,7 @@ public class VerificationWinningTickets {
         //второй тур
         boolean isWinner = true;
         int countCrossedNumber = 0;
-        int countCrossed = ticket.getCountIsCrossedNumber();
+//        int countCrossed = ticket.getCountIsCrossedNumber();
         for (TicketRow ticketRow : ticket.getTopField().getSetTicketRow()) {
             for (Cell cell : ticketRow.getSetCell()) {
                 if (!cell.isCrossed()) {
@@ -176,11 +176,12 @@ public class VerificationWinningTickets {
 
     public static boolean verificationKubyshka(Ticket ticket, List<Integer> listLastNumber){
         //кубышка
+        List<Integer> listLastNumberTopField = new LinkedList(listLastNumber);
         List<Integer> listLastNumberBotField = new LinkedList(listLastNumber);
         boolean isWinner = true;
         int countCrossedNumber = 0;
-        int countCrossed = ticket.getCountIsCrossedNumber();
-        Iterator<Integer> iteratorTop = listLastNumber.iterator();
+//        int countCrossed = ticket.getCountIsCrossedNumber();
+        Iterator<Integer> iteratorTop = listLastNumberTopField.iterator();
         for (TicketRow ticketRow : ticket.getTopField().getSetTicketRow()) {
             for (Cell cell : ticketRow.getSetCell()) {
                 while (iteratorTop.hasNext()) {
@@ -193,7 +194,7 @@ public class VerificationWinningTickets {
                 }
             }
         }
-        if (listLastNumber.size() == 0) {
+        if (listLastNumberTopField.size() == 0) {
             Tools.customLogger(
                     "Билет номер " + ticket.getNumber() + " ВЫИГРАЛ В КУБЫШКЕ ПО ВЕРХНЕМУ ПОЛЮ");
             ticket.win = WinTour.KUBYSHKA;
