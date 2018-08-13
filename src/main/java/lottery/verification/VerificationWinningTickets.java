@@ -181,14 +181,12 @@ public class VerificationWinningTickets {
         boolean isWinner = true;
         int countCrossedNumber = 0;
 //        int countCrossed = ticket.getCountIsCrossedNumber();
-        Iterator<Integer> iteratorTop = listLastNumberTopField.iterator();
         for (TicketRow ticketRow : ticket.getTopField().getSetTicketRow()) {
             for (Cell cell : ticketRow.getSetCell()) {
-                while (iteratorTop.hasNext()) {
-                    Integer numberLast = iteratorTop.next();
+                for(int i = 0; i< listLastNumberTopField.size(); i++){
                     if (!cell.getCrossed()) {
-                        if (cell.getValue() == numberLast) {
-                            iteratorTop.remove();
+                        if (cell.getValue() == listLastNumberTopField.get(i)) {
+                            listLastNumberTopField.remove(i);
                         }
                     }
                 }
@@ -201,14 +199,12 @@ public class VerificationWinningTickets {
             return isWinner;
         }
         isWinner = true;
-        Iterator<Integer> iteratorBot = listLastNumberBotField.iterator();
         for (TicketRow ticketRow : ticket.getBotField().getSetTicketRow()) {
             for (Cell cell : ticketRow.getSetCell()) {
-                while (iteratorBot.hasNext()) {
-                    Integer numberLast = iteratorBot.next();
+                for(int i = 0; i< listLastNumberBotField.size(); i++){
                     if (!cell.getCrossed()) {
-                        if (cell.getValue() == numberLast) {
-                            iteratorBot.remove();
+                        if (cell.getValue() == listLastNumberBotField.get(i)) {
+                            listLastNumberBotField.remove(i);
                         }
                     }
                 }
