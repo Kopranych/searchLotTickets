@@ -1,5 +1,6 @@
 package selenideAction;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -8,9 +9,13 @@ import model.TicketRow;
 import ru.bpirate.vsrftools.Tools;
 
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
+import static com.codeborne.selenide.Condition.hidden;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byClassName;
+import static com.codeborne.selenide.Selectors.byName;
 import static com.codeborne.selenide.Selenide.$;
 import static logic.CompareTicket.listTempTicket;
 
@@ -63,17 +68,33 @@ public class WorkerInPage {
                 Selenide.screenshot(screenshotFileName);
                 Selenide.sleep(1000);
                 addTicketToBacket();
-                ticketElement.click();
+//                ticketElement.click();//отключаю при боевом использовании
             }
         }
     }
 
     private static void addTicketToBacket() {
         Tools.customLogger("> > Начал работу метод добавления билета в корзину");
+
+        if($(byName("ruslotto_cart")).is(hidden)){
+            SelenideElement parentElement = $(byClassName("checkout"));
+            parentElement.$(byClassName("switcher")).click();
+            $(byClassName("for_regular")).click();
+        }
+        $(byName("ruslotto_cart")).shouldBe(visible).click();
     }
 
     public static void updateListTicketOnPage() {
         Tools.customLogger("> > Начал работу метод обновления билетов на странице");
-       $(byClassName("refresh")).click();
+        $(byClassName("refresh")).click();
+    }
+
+    public static boolean existElement(String nameElement){
+        try{
+            $(byName(nameElement)).shouldBe(Condition.hidden);
+            return true;
+        }catch(NoSuchElementException e){
+            return false;
+        }
     }
 }
