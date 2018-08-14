@@ -5,6 +5,11 @@ import ru.bpirate.vsrftools.Tools;
 
 import java.util.*;
 
+/**
+ * Класс с основными алгоритмами сравнения билетов по различным принципам
+ * @author kopranych 15.08.2018
+ */
+
 public class CompareTicket {
     public static List<Ticket> listUniqueTicket = new LinkedList<Ticket>();
     public static List<Ticket> listTicketContainUniqueNumbers = new LinkedList<>();
@@ -17,6 +22,13 @@ public class CompareTicket {
     private static int countUniqueNumbers = 0;
     public static int countUniqueNumbersPermission = 19;
     private static int countTicket = 0;
+
+    /**
+     * Метод добавляет билет ticket в список listUniqueTicket если количество чисел в билете совпавших со всеми
+     * числами из списка билетов listUniqueTicket меньше или равно установленному ограничению numberOfMatches
+     * @param ticket - билет который хотим добавить
+     * @return - boolean true если билет добавлен, false если нет
+     */
 
     public static boolean addUniqueTickets(Ticket ticket) {
         Tools.customLogger("> > Начал работу метод добавления уникльных билетов");
@@ -38,6 +50,13 @@ public class CompareTicket {
         }
         return true;
     }
+
+    /**
+     * Метод добавляет билет ticket в список listTicketContainUniqueNumbers если в билете количество чисел(в диапозоне от 1 до 90)
+     * не содержащихся в других билетах из списка listTicketContainUniqueNumbers больше ограничения countUniqueNumbersPermission
+     * @param ticket - билет который добавляем
+     * @return - boolean true если добавлен, false если нет
+     */
 
     public static boolean addTicketContainUniqueNumbers(Ticket ticket) {
         List<Integer> listTempNumbers = new ArrayList<>();
